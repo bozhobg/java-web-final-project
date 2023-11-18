@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Exchange</title>
+    <link rel="stylesheet" href="../static/css/reset-css.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css"/>
+</head>
+
+<body>
+<header>
+    <nav class='nav-bar'>
+
+        <ul class='site-nav'>
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="books-catalogue.html">Books Catalogue</a>
+            </li>
+        </ul>
+        <ul class='user-nav'>
+            <li>
+                <a href="login.html">Login</a>
+            </li>
+            <li>
+                <a href="register.html">Register</a>
+            </li>
+            <li>
+                <!--                TODO: implement with post!-->
+                <a href="">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class='form-container register'>
+        <form action="/users/register" method="POST">
+            <label for="username">Username</label>
+            <input id="username" type="text">
+
+            <label for="email">Email</label>
+            <input id="email" type="email"/>
+
+            <label for="firstName">First name</label>
+            <input id="firstName" type="text">
+
+            <label for="lastName">Last name</label>
+            <input id="lastName" type="text">
+
+            <label for="password">Password</label>
+            <input id="password" type="password">
+
+            <label for="confirmPassword">Confirm password</label>
+            <input id="confirmPassword" type="password">
+
+            <button type="submit">Register</button>
+        </form>
+        <img src="../static/images/book-shelves-4.png" alt="">
+    </div>
+</main>
+</body>
+</html>

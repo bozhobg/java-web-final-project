@@ -1,0 +1,137 @@
+@font-face {
+    font-family: "Roboto", sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+}
+
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+html {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+}
+
+body {
+    padding: 50px;
+    background-color: #f5f3f1;
+}
+
+
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-bar ul {
+    display: inline-block;
+}
+
+.nav-bar .user-nav {
+    margin-left: auto;
+}
+
+
+.nav-bar li {
+    padding: 0.6rem 1rem;
+    border: 1px solid #D7D7D7;
+    border-radius: 0.5rem;
+    background-color: #D7D7D7;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: inline-block;
+    margin-inline: 1rem;
+}
+
+.nav-bar li:hover {
+    background-color: white;
+    border: 1px solid #00497F;
+}
+
+.nav-bar a {
+    color: #00497F;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+main {
+    margin-top: 100px;
+}
+
+.landing-container {
+    margin-inline: auto;
+    width: 80vw;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.landing-container h1 {
+    margin-bottom: 15px;
+}
+
+.form-container {
+    /*padding-block: 1rem;*/
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 30%;
+    margin-inline: auto;
+    background-color: white;
+    border-radius: 1.75rem;
+}
+
+.form-container.register {
+    height: 515px;
+}
+
+.form-container img {
+    display: block;
+    height: 300px;
+}
+
+.form-container form {
+    font-weight: bold;
+    font-variant: all-small-caps;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    justify-items: center;
+    width: 40%;
+    margin-inline: auto;
+    display: flex;
+}
+
+.form-container form input {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid black;
+    border-radius: 0.75em;
+
+}
+
+.form-container form button {
+    margin-top: 0.5rem;
+    padding: 0.4rem 1rem;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    font-variant: all-small-caps;
+    border: 1px solid black;
+    border-radius: 0.75rem;
+}
+
+.form-container form button:hover {
+    color: black;
+    background-color: white;
+    cursor: pointer;
+}
+

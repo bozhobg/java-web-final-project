@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Exchange</title>
+    <link rel="stylesheet" href="../static/css/reset-css.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css"/>
+</head>
+<body>
+<header>
+    <nav class='nav-bar'>
+
+        <ul class='site-nav'>
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="books-catalogue.html">Books Catalogue</a>
+            </li>
+            <li>
+                <a href="book-add.html">Add book</a>
+            </li>
+            <li>
+                <a href="author-add.html">Add author</a>
+            </li>
+        </ul>
+        <ul class='user-nav'>
+            <li>
+                <a href="user-profile.html">Profile</a>
+            </li>
+            <li>
+                <a href="user-login.html">Login</a>
+            </li>
+            <li>
+                <a href="user-register.html">Register</a>
+            </li>
+            <li>
+                <!--                TODO: implement with post!-->
+                <a href="">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="cat author-add">
+        <form class="cat-row search-form"
+              action="/catalogue/api"
+              method="post"
+        >
+            <div class="cat-col cat-title">
+                <div class="cell">
+                    <label for="firstName">
+                        First Name:
+                    </label>
+                    <br>
+                    <input id="firstName" type="text">
+                </div>
+            </div>
+            <div class="cat-col cat-author">
+                <div class="cell">
+                    <label for="middleName">
+                        Middle Name:
+                    </label>
+                    <br>
+                    <input id="middleName" type="text">
+                </div>
+            </div>
+            <div class="cat-col cat-genre">
+                <div class="cell">
+                    <label for="lastName">
+                        Last Name:
+                    </label>
+                    <br>
+                    <input id="lastName" type="text">
+                </div>
+            </div>
+            <div class="cat-col btn">
+                <div class="cell cell-btn">
+                    <button>Create author</button>
+                </div>
+            </div>
+        </form>
+
+</main>
+</body>
+</html>

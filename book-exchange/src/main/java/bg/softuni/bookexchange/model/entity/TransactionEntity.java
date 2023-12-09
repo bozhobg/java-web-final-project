@@ -8,11 +8,8 @@ import java.time.LocalDate;
 @Table(name = "transactions")
 public class TransactionEntity extends BaseEntity{
 
-    @ManyToOne
-    @JoinColumn(name = "book_copy_id")
-    private BookCopyEntity bookItem;
     @OneToOne
-    private UserEntity borrower;
+    private RequestEntity request;
     @Column(name = "borrow_date", nullable = false)
     private LocalDate borrowDate;
     @Column(name = "due_date", nullable = false)
@@ -22,21 +19,12 @@ public class TransactionEntity extends BaseEntity{
 
     public TransactionEntity() {}
 
-    public BookCopyEntity getBookItem() {
-        return bookItem;
+    public RequestEntity getRequest() {
+        return request;
     }
 
-    public TransactionEntity setBookItem(BookCopyEntity bookItem) {
-        this.bookItem = bookItem;
-        return this;
-    }
-
-    public UserEntity getBorrower() {
-        return borrower;
-    }
-
-    public TransactionEntity setBorrower(UserEntity borrower) {
-        this.borrower = borrower;
+    public TransactionEntity setRequest(RequestEntity request) {
+        this.request = request;
         return this;
     }
 

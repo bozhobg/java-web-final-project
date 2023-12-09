@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Exchange</title>
+    <link rel="stylesheet" href="../static/css/reset-css.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css"/>
+</head>
+
+<body>
+<header>
+    <nav class='nav-bar'>
+
+        <ul class='site-nav'>
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="books-catalogue.html">Books Catalogue</a>
+            </li>
+        </ul>
+        <ul class='user-nav'>
+            <li>
+                <a href="user-profile.html">Profile</a>
+            </li>
+            <li>
+                <a href="user-login.html">Login</a>
+            </li>
+            <li>
+                <a href="user-register.html">Register</a>
+            </li>
+            <li>
+                <!--                TODO: implement with post!-->
+                <a href="">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="book-details split-container">
+            <h1>Title</h1>
+            <p>Author1, Author2</p>
+            <p>Genre1, Genre2</p>
+    </div>
+
+    <div class="actions">
+        <div class="cat-col">
+            <div class="cell">
+                <form action="" method="post">
+                    <button class="cell-btn">Add Copy</button>
+                </form>
+            </div>
+        </div>
+        <div class="cat-col">
+            <div class="cell">
+                <form action="" method="post">
+                    <button class="cell-btn">Edit Details</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="book-copies">
+        <div class="cat-row title-row">
+            <div class="cat-col">
+                <div class="cell">
+                    Owner
+                </div>
+            </div>
+            <div class="cat-col">
+                <div class="cell">
+                    Available / Due Date
+                </div>
+            </div>
+            <div class="cat-col">
+                <div class="cell">
+                    Details
+                </div>
+            </div>
+        </div>
+
+        <div class="cat-row">
+            <div class="cat-col owner">
+                <div class="cell">
+                    user1
+                </div>
+            </div>
+            <div class="cat-col condition">
+                <div class="cell">
+                    Available
+                </div>
+            </div>
+            <div class="cat-col btn">
+                <div class="cell">
+                    <a href="copy-details.html">Copy Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="cat-row">
+            <div class="cat-col owner">
+                <div class="cell">
+                    user3
+                </div>
+            </div>
+            <div class="cat-col condition">
+                <div class="cell">
+                    24 Jan 2024
+                </div>
+            </div>
+            <div class="cat-col btn">
+                <div class="cell">
+                    <a href="copy-details.html">Copy Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

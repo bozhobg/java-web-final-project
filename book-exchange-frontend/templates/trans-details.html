@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Exchange</title>
+    <link rel="stylesheet" href="../static/css/reset-css.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css"/>
+</head>
+
+<body>
+<header>
+    <nav class='nav-bar'>
+
+        <ul class='site-nav'>
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="books-catalogue.html">Books Catalogue</a>
+            </li>
+        </ul>
+        <ul class='user-nav'>
+            <li>
+                <a href="user-profile.html">Profile</a>
+            </li>
+            <li>
+                <a href="user-login.html">Login</a>
+            </li>
+            <li>
+                <a href="user-register.html">Register</a>
+            </li>
+            <li>
+                <!--                TODO: implement with post!-->
+                <a href="">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="split-container">
+        <div class="book-details">
+            <h1>Title</h1>
+
+            <p>Author1, Author2</p>
+            <p class="details-prop">owned by:</p>
+            <p class="details-value">user1</p>
+
+        </div>
+        <div class="copy-details">
+            <p class="details-prop">Borrower: </p>
+            <p class="details-value">borrower</p>
+            <p class="details-prop">Due Date: </p>
+            <p class="details-value">1st Jan / Available</p>
+            <p class="details-prop">Extend to:</p>
+            <p class="details-value">Extend to 1st Feb</p>
+
+        </div>
+    </div>
+
+    <div class="actions">
+        <div class="cat-col">
+            <div class="cell">
+                <form action="" method="post">
+                    <label>Date:</label>
+                    <input type="date"/>
+                    <button type="submit" class="cell-btn">
+                        Request Extension
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!--        request - for borrower OR current transaction + delete - for owner-->
+        <div class="cat-col">
+            <div class="cell">
+                <form action="" method="post">
+                    <button type="submit" class="cell-btn ">
+                        Approve Extension
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="cat-col">
+            <div class="cell">
+                <form action="" method="post">
+                    <button type="submit" class="cell-btn ">
+                        Decline Extension
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="cat-col">
+            <div class="cell">
+                <form action="" method="post">
+                    <button type="submit" class="cell-btn ">
+                        Close Transaction
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="cat requests">
+        <div class="cell title-row cat-col">
+            Requests:
+        </div>
+        <div class="cat-col username">
+            <div class="cell">
+                username 1
+            </div>
+        </div>
+        <div class="cat-col dateCreated">
+            <div class="cell">
+                Date Created
+            </div>
+        </div>
+        <div class="cat-col btn">
+            <div class="cell">
+                <form action="" method="post">
+                    <button type="submit">Decline</button>
+                </form>
+            </div>
+        </div>
+        <div class="cat-col btn">
+            <div class="cell">
+                <form action="" method="post">
+                    <button type="submit">Open Transaction</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

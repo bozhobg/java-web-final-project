@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Exchange</title>
+    <link rel="stylesheet" href="../static/css/reset-css.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css"/>
+</head>
+
+<body>
+<header>
+    <nav class='nav-bar'>
+
+        <ul class='site-nav'>
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="books-catalogue.html">Books Catalogue</a>
+            </li>
+        </ul>
+        <ul class='user-nav'>
+            <li>
+                <a href="user-profile.html">Profile</a>
+            </li>
+            <li>
+                <a href="user-login.html">Login</a>
+            </li>
+            <li>
+                <a href="user-register.html">Register</a>
+            </li>
+            <li>
+                <!--                TODO: implement with post!-->
+                <a href="">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="split-container">
+        <div class="profile-details">
+            <h1>Username</h1>
+            <p>FirstName LastName</p>
+            <p>email</p>
+        </div>
+        <div class="profile-rating">
+            <h1>4.0</h1>
+            <p>rating</p>
+        </div>
+    </div>
+
+    <div class="profile-owned">
+        <div class="cell title-row cat-col">
+            Lending:
+        </div>
+        <div class="cat-row">
+            <div class="cat-col title">
+                <div class="cell">
+                    Salt, Fat, Acid, Heat
+                </div>
+            </div>
+            <div class="cat-col author">
+                <div class="cell">
+                    Samin Nosrat
+                </div>
+            </div>
+            <div class="cat-col btn">
+                <div class="cell">
+<!--                    TODO: request logic, form!-->
+                    <a href="copy-details.html">Copy Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-wishlist">
+        <div class="cell title-row cat-col">
+            Wishlist:
+        </div>
+        <div class="cat-row">
+            <div class="cat-col title">
+                <div class="cell">
+                    Salt, Fat, Acid, Heat
+                </div>
+            </div>
+            <div class="cat-col author">
+                <div class="cell">
+                    Samin Nosrat
+                </div>
+            </div>
+            <div class="cat-col btn">
+                <div class="cell">
+                    <a href="book-details.html">Book Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

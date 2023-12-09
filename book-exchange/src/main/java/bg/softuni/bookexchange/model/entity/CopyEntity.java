@@ -8,9 +8,9 @@ import java.time.Year;
 
 @Entity
 @Table(name = "book_copies")
-public class BookCopyEntity extends BaseEntity {
-    @Column(name = "year_published")
-    private Year yearPublished;
+public class CopyEntity extends BaseEntity {
+//    @Column(name = "year_published")
+//    private Year yearPublished;
     @ManyToOne
     @JoinColumn(name = "book_id")
     private BookEntity book;
@@ -21,22 +21,13 @@ public class BookCopyEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private BookConditionEnum bookCondition;
 
-    public BookCopyEntity(){}
-
-    public Year getYearPublished() {
-        return yearPublished;
-    }
-
-    public BookCopyEntity setYearPublished(Year yearPublished) {
-        this.yearPublished = yearPublished;
-        return this;
-    }
+    public CopyEntity(){}
 
     public BookEntity getBook() {
         return book;
     }
 
-    public BookCopyEntity setBook(BookEntity book) {
+    public CopyEntity setBook(BookEntity book) {
         this.book = book;
         return this;
     }
@@ -45,7 +36,7 @@ public class BookCopyEntity extends BaseEntity {
         return owner;
     }
 
-    public BookCopyEntity setOwner(UserEntity owner) {
+    public CopyEntity setOwner(UserEntity owner) {
         this.owner = owner;
         return this;
     }
@@ -54,7 +45,7 @@ public class BookCopyEntity extends BaseEntity {
         return bookCondition;
     }
 
-    public BookCopyEntity setBookCondition(BookConditionEnum bookCondition) {
+    public CopyEntity setBookCondition(BookConditionEnum bookCondition) {
         this.bookCondition = bookCondition;
         return this;
     }

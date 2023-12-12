@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head}">
+<head th:replace="~{fragments/head::head}">
     <meta charset="UTF-8">
     <title>Book Exchange</title>
     <link rel="stylesheet" href="../static/css/reset-css.css"/>
@@ -36,11 +36,17 @@
         </ul>
     </nav>
 </header>
-
-<main class="landing">
-    <div class='landing-container'>
-        <h1>Welcome to the open exchange library!</h1>
-        <img th:src="@{/images/landing-img.png}" alt="landing image">
+<main>
+    <div class='form-container login'>
+        <form
+                action="/users/login" method="POST">
+            <label for="username">Username</label>
+            <input id="username" type="text">
+            <label for="password">Password</label>
+            <input id="password" type="password">
+            <button type="submit">Login</button>
+        </form>
+        <img th:src="@{/images/book-shelves-4.png}" alt="User form image">
     </div>
 </main>
 </body>

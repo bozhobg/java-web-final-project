@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head}">
+    <meta charset="UTF-8">
+    <title>Book Exchange</title>
+    <link rel="stylesheet" href="../static/css/reset-css.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css"/>
+</head>
+<body>
+<header th:replace="~{fragments/header-nav::header-nav-catalogue}">
+    <nav class='nav-bar'>
+
+        <ul class='site-nav'>
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="books-catalogue.html">Books Catalogue</a>
+            </li>
+            <li>
+                <a href="book-add.html">Add book</a>
+            </li>
+            <li>
+                <a href="author-add.html">Add author</a>
+            </li>
+        </ul>
+        <ul class='user-nav'>
+            <li>
+                <a href="user-profile.html">Profile</a>
+            </li>
+            <li>
+                <a href="user-login.html">Login</a>
+            </li>
+            <li>
+                <a href="user-register.html">Register</a>
+            </li>
+            <li>
+                <!--                TODO: implement with post!-->
+                <a href="">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="cat">
+    <form class="cat-row search-form"
+          action="/catalogue/api"
+          method="post"
+    >
+        <div class="cat-col cat-title">
+            <div class="cell">
+                <label for="title">
+                    Title:
+                </label>
+                <br>
+                <input id="title" type="text">
+            </div>
+        </div>
+        <div class="cat-col cat-author">
+            <div class="cell">
+                <label for="author">
+                    Author:
+                </label>
+                <br>
+                <input id="author" type="text">
+            </div>
+        </div>
+        <div class="cat-col cat-genre">
+            <div class="cell">
+                <label for="genre">
+                    Genre:
+                </label>
+                <br>
+                <input id="genre" type="text">
+            </div>
+        </div>
+        <div class="cat-col cat-available">
+            <div class="cell">
+                <label for="isAvailable">
+                    Available Copy:
+                </label>
+                <br>
+                <input id="isAvailable" type="checkbox" value="true">
+            </div>
+        </div>
+        <div class="cat-col btn">
+            <div class="cell cell-btn">
+                <button>Search</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="cat-row search-result">
+        <div class="cat-col cat-title">
+            <div class="cell">
+                Salt, Fat, Acid, Heat
+            </div>
+        </div>
+        <div class="cat-col cat-author">
+            <div class="cell">
+                Samin Nosrat
+            </div>
+        </div>
+        <div class="cat-col cat-genre">
+            <div class="cell">
+                Cooking
+            </div>
+        </div>
+        <div class="cat-col cat-available">
+            <div class="cell">
+                1/2
+            </div>
+        </div>
+        <div class="cat-col btn">
+            <div class="cell">
+            <a href="book-details.html">Book Details</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="cat-row search-result">
+        <div class="cat-col cat-title">
+            <div class="cell">
+                Salt, Fat, Acid, Heat
+            </div>
+        </div>
+        <div class="cat-col cat-author">
+            <div class="cell">
+                Samin Nosrat
+            </div>
+        </div>
+        <div class="cat-col cat-genre">
+            <div class="cell">
+                Cooking
+            </div>
+        </div>
+        <div class="cat-col cat-available">
+            <div class="cell">
+                1/2
+            </div>
+        </div>
+        <div class="cat-col btn">
+            <div class="cell">
+                <a href="book-details.html">Book Details</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="cat-row search-result">
+        <div class="cat-col cat-title">
+            <div class="cell">
+                Salt, Fat, Acid, Heat
+            </div>
+        </div>
+        <div class="cat-col cat-author">
+            <div class="cell">
+                Samin Nosrat
+            </div>
+        </div>
+        <div class="cat-col cat-genre">
+            <div class="cell">
+                Cooking, Educational
+            </div>
+        </div>
+        <div class="cat-col cat-available">
+            <div class="cell">
+                1/2
+            </div>
+        </div>
+        <div class="cat-col btn">
+            <div class="cell">
+                <a href="book-details.html">Book Details</a>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+</body>
+</html>

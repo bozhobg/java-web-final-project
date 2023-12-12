@@ -4,7 +4,6 @@
 }
 
 
-
 *,
 *::before,
 *::after {
@@ -16,18 +15,382 @@
 
 html {
     font-family: "Roboto", sans-serif;
+    font-size: 16px;
 }
+
+body {
+    padding: 50px;
+    background-color: #f5f3f1;
+}
+
 
 .nav-bar {
-    
-}
-
-.nav-bar ul {
     display: flex;
     flex-direction: row;
 }
 
-.nav-bar li {
+.nav-bar ul {
     display: inline-block;
-    margin-inline: 15px;
 }
+
+.nav-bar .user-nav {
+    margin-left: auto;
+}
+
+
+.nav-bar li {
+    padding: 0.6rem 1rem;
+    border: 1px solid #D7D7D7;
+    border-radius: 0.5rem;
+    background-color: #D7D7D7;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: inline-block;
+    margin-inline: 1rem;
+}
+
+.nav-bar li:hover {
+    background-color: white;
+    border: 1px solid #00497F;
+}
+
+a {
+    text-decoration: none;
+}
+
+.nav-bar a {
+    color: #00497F;
+    text-transform: uppercase;
+}
+
+main, main.cat {
+    margin-top: 100px;
+}
+
+.cat.cat-home {
+    grid-template-columns: 4fr 2fr 2fr 2fr 2fr;
+}
+
+.cat.cat-home .cat-header {
+    font-weight: bold;
+}
+
+.landing-container {
+    margin-inline: auto;
+    width: 80vw;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.landing-container h1 {
+    margin-bottom: 15px;
+}
+
+.form-container {
+    /*padding-block: 1rem;*/
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 550px;
+    margin-inline: auto;
+    background-color: white;
+    border-radius: 1.75rem;
+}
+
+.form-container.register {
+    height: 515px;
+}
+
+.form-container img {
+    display: block;
+    height: 300px;
+}
+
+.form-container form,
+form.search-form {
+    font-weight: bold;
+    font-variant: all-small-caps;
+}
+
+form.search-form .cat-col .cell {
+    vertical-align: unset;
+}
+
+.form-container form {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 40%;
+    margin-inline: auto;
+    display: flex;
+}
+
+.form-container form input {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-container form input,
+form.search-form input,
+div.cell input {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid black;
+    border-radius: 0.75em;
+
+}
+
+form.search-form input {
+    margin-top: 0.5rem;
+}
+
+.form-container form button,
+form.search-form button,
+.cat-col button,
+.cat-col a {
+    display: inline-block;
+    /*margin-top: 0.5rem;*/
+    padding: 0.4rem 1rem;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    font-variant: all-small-caps;
+    border: 1px solid black;
+    border-radius: 0.75rem;
+}
+
+form.search-form button,
+.cat-col a {
+    margin-top: auto;
+}
+
+form.search-form div.cell.cell-btn,
+div.cat-col div.cell.cell-btn {
+    vertical-align: middle;
+    margin: 0;
+}
+
+.search-result .cat-col a {
+    font-size: 0.9rem;
+}
+
+.form-container form button:hover,
+.cat-col button:hover,
+.cat-col a:hover,
+li.cat-tag button.tag-btn:hover,
+div.cat-tag button.tag-btn:hover {
+    color: black;
+    background-color: white;
+    cursor: pointer;
+}
+
+button.delete-btn:hover {
+    color: white;
+    background-color: #f22828;
+}
+
+*.cat,
+.profile-owned,
+.profile-wishlist,
+.book-copies {
+    width: 1200px;
+    margin-block: 2rem;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 5fr 3fr 2fr 1fr 1fr;
+    grid-gap: 5px;
+    /*background-color: white;*/
+}
+
+.split-container {
+    width: 800px;
+    margin-inline: auto;
+    margin-block: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+div.book-details {
+    display: block;
+}
+
+.split-container > div,
+div.book-details {
+    background-color: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+div.book-details {
+    text-align: center;
+}
+
+.profile-details > *,
+div.book-details > *,
+.copy-details > * {
+    margin-block: 0.5rem;
+}
+
+.copy-details p.details-prop {
+    font-weight: normal;
+    font-variant: all-small-caps;
+}
+
+div.actions {
+    /*width: 800px;*/
+    display: block;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.actions > .cat-col {
+    margin-inline: 0.25rem;
+    display: inline-block;
+
+}
+
+.profile-details > h1,
+div.book-details > h1 {
+    font-size: 2rem;
+}
+
+.profile-details > p,
+div.book-details > p {
+    font-weight: normal;
+}
+
+div.book-details .details-value {
+    font-weight: bold;
+}
+
+.profile-rating > h1 {
+    font-weight: bold;
+    font-size: 5rem;
+    margin: auto;
+    text-align: center;
+}
+
+.profile-rating {
+    font-weight: bold;
+    text-align: center;
+}
+
+.profile-owned,
+.profile-wishlist,
+.book-copies {
+    width: 800px;
+    grid-template-columns: 6fr 4fr 2fr;
+}
+
+.requests {
+    grid-template-columns: 5fr 3fr 2fr 2fr;
+}
+
+/*ADD BOOK PAGE CSS*/
+
+div.cat.book-add,
+div.cat.author-add,
+div.cat.find-author {
+    width: 1200px;
+    grid-template-columns: 4fr 3.5fr 3.5fr 1fr;
+    grid-gap: 5px;
+}
+
+div.cat.book-add input#title {
+    width: 80%
+}
+
+div.add-genres {
+    width: 1200px;
+    margin-inline: auto;
+}
+
+div.add-genres div.cat-col {
+    width: 100%;
+}
+
+div.add-genres h3 {
+    font-weight: bold;
+}
+
+div.add-genres ul li.cat-tag button.tag-btn {
+    font-size: 0.9rem;
+    padding-inline: 0.3rem;
+    padding-block: unset;
+}
+
+/*EO ADD BOOK PAGE*/
+
+/*TAG STYLING*/
+
+div.cat-tag,
+li.cat-tag {
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding-block: 0.2rem;
+    padding-inline: 0.5rem 0.25rem;
+    color: white;
+    background-color: #5994c2;
+    border: 1px solid #5994c2;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.cat-tag > button.tag-btn {
+    display: inline;
+    margin: unset;
+    font-size: 0.75rem;
+    color: white;
+    padding-inline: 0.25rem;
+    padding-block: 0.1rem;
+    font-variant: small-caps;
+    background-color: #5994c2;
+    border: 1px solid white;
+    border-radius: 5rem;
+}
+
+/*EO TAG STYLING*/
+
+
+.cat-row {
+    display: contents;
+}
+
+.title-row {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cat-col{
+    display: table;
+    background-color: white;
+    border-radius: 5px;
+
+    font-variant: small-caps;
+    justify-self: stretch;
+    align-self: stretch;
+}
+
+.cat-col .cell {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.cat-genre {
+    font-variant: all-small-caps;
+}
+
+
+

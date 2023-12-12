@@ -20,11 +20,15 @@ public class BookEntity extends BaseEntity {
     @JoinTable(
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<BookCategoryEntity> categories;
+    private Set<GenreEntity> genres;
+
+//    @OneToMany(mappedBy = "book")
+//    private Set<CopyEntity> copies;
 
     public BookEntity() {
         this.authors = new HashSet<>();
-        this.categories = new HashSet<>();
+        this.genres = new HashSet<>();
+//        this.copies = new HashSet<>();
     }
 
     public String getTitle() {
@@ -45,12 +49,21 @@ public class BookEntity extends BaseEntity {
         return this;
     }
 
-    public Set<BookCategoryEntity> getCategories() {
-        return categories;
+    public Set<GenreEntity> getGenres() {
+        return genres;
     }
 
-    public BookEntity setCategories(Set<BookCategoryEntity> categories) {
-        this.categories = categories;
+    public BookEntity setGenres(Set<GenreEntity> genres) {
+        this.genres = genres;
         return this;
     }
+
+//    public Set<CopyEntity> getCopies() {
+//        return copies;
+//    }
+//
+//    public BookEntity setCopies(Set<CopyEntity> copies) {
+//        this.copies = copies;
+//        return this;
+//    }
 }

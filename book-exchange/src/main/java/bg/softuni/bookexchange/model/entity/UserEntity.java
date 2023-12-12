@@ -19,15 +19,15 @@ public class UserEntity extends BaseEntity {
     private String email;
     @Column(nullable = false)
     private String password;
-    @ManyToMany
-    @JoinTable(name = "users_books_wanted",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
-    )
-    private Set<BookEntity> booksWanted;
+
+//    @ManyToMany
+//    @JoinTable(name = "users_books_wanted",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "book_id")
+//    )
+//    private Set<BookEntity> booksWanted;
 
     public UserEntity() {
-        this.booksWanted = new HashSet<>();
     }
 
     public String getFirstName() {
@@ -66,12 +66,12 @@ public class UserEntity extends BaseEntity {
         return this;
     }
 
-    public Set<BookEntity> getBooksWanted() {
-        return booksWanted;
+    public String getPassword() {
+        return password;
     }
 
-    public UserEntity setBooksWanted(Set<BookEntity> booksWanted) {
-        this.booksWanted = booksWanted;
+    public UserEntity setPassword(String password) {
+        this.password = password;
         return this;
     }
 }

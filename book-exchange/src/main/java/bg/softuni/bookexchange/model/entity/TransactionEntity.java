@@ -8,14 +8,16 @@ import java.time.LocalDate;
 @Table(name = "transactions")
 public class TransactionEntity extends BaseEntity{
 
-    @OneToOne
+    @OneToOne(optional = false)
     private RequestEntity request;
+    @OneToOne(mappedBy = "currentTransaction")
+    private CopyEntity copy;
     @Column(name = "borrow_date", nullable = false)
     private LocalDate borrowDate;
     @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
-    @Column(name = "is_open", nullable = false)
-    private Boolean isOpen;
+    @Column(name = "returnDate", nullable = false)
+    private Boolean returnDate;
 
     public TransactionEntity() {}
 
@@ -25,6 +27,15 @@ public class TransactionEntity extends BaseEntity{
 
     public TransactionEntity setRequest(RequestEntity request) {
         this.request = request;
+        return this;
+    }
+
+    public CopyEntity getCopy() {
+        return copy;
+    }
+
+    public TransactionEntity setCopy(CopyEntity copy) {
+        this.copy = copy;
         return this;
     }
 
@@ -46,12 +57,12 @@ public class TransactionEntity extends BaseEntity{
         return this;
     }
 
-    public Boolean getOpen() {
-        return isOpen;
+    public Boolean getReturnDate() {
+        return returnDate;
     }
 
-    public TransactionEntity setOpen(Boolean open) {
-        isOpen = open;
+    public TransactionEntity setReturnDate(Boolean returnDate) {
+        this.returnDate = returnDate;
         return this;
     }
 }

@@ -9,12 +9,18 @@
 <body>
 <header th:fragment="header-nav">
     <nav class='nav-bar'>
-        <ul>
+
+        <ul class='site-nav'>
             <li>
-                <a th:href="@{/}">Home</a>
+                <a th:href="@{/home}">Home</a>
             </li>
             <li>
-                <a href="/">Books Catalogue</a>
+                <a th:href="@{/catalogue}">Books Catalogue</a>
+            </li>
+        </ul>
+        <ul class='user-nav'>
+            <li>
+                <a th:href="@{/users/account}">Profile</a>
             </li>
             <li>
                 <a th:href="@{/users/login}">Login</a>
@@ -23,7 +29,43 @@
                 <a th:href="@{/users/register}">Register</a>
             </li>
             <li>
-<!--                TODO: implement with post!-->
+                <!--                TODO: implement with post!-->
+                <a href="">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<header th:fragment="header-nav-catalogue">
+    <nav class='nav-bar'>
+
+        <ul class='site-nav'>
+            <li>
+                <a th:href="@{/home}">Home</a>
+            </li>
+            <li>
+                <a th:href="@{/catalogue}">Books Catalogue</a>
+            </li>
+            <li>
+                <a th:href="@{/books/add}">Add book</a>
+            </li>
+            <li>
+                <a th:href="@{/authors/add}">Add author</a>
+            </li>
+        </ul>
+        <ul class='user-nav'>
+            <li>
+                <a th:href="@{/users/account}">Profile</a>
+            </li>
+            <li>
+                <a th:href="@{/users/login}">Login</a>
+            </li>
+            <li>
+                <a th:href="@{/users/register}">Register</a>
+            </li>
+            <li>
+                <!--                TODO: implement with post!-->
                 <a href="">Logout</a>
             </li>
         </ul>

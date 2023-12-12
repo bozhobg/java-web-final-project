@@ -21,8 +21,8 @@ public class RequestEntity extends BaseEntity {
     private LocalDate dateDeclined;
 //    used to lock creation of new transactions if borrowed
     @OneToOne
-    @JoinColumn(name = "current_transaction")
-    private TransactionEntity currentTransaction;
+    @JoinColumn(name = "opened_tx_id")
+    private TransactionEntity openedTransaction;
 
 
     public RequestEntity() {}
@@ -63,12 +63,12 @@ public class RequestEntity extends BaseEntity {
         return this;
     }
 
-    public TransactionEntity getCurrentTransaction() {
-        return currentTransaction;
+    public TransactionEntity getOpenedTransaction() {
+        return openedTransaction;
     }
 
-    public RequestEntity setCurrentTransaction(TransactionEntity currentTransaction) {
-        this.currentTransaction = currentTransaction;
+    public RequestEntity setOpenedTransaction(TransactionEntity currentTransaction) {
+        this.openedTransaction = currentTransaction;
         return this;
     }
 

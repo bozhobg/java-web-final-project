@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="~{fragments/head}">
     <meta charset="UTF-8">
     <title>Book Exchange</title>
     <link rel="stylesheet" href="../static/css/reset-css.css"/>
@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<header>
+<header th:replace="~{fragments/header-nav::header-nav}">
     <nav class='nav-bar'>
 
         <ul class='site-nav'>
@@ -80,59 +80,32 @@
         <div class="cell title-row cat-col">
             Requests:
         </div>
-
-        <div class="cat-row title-row">
-            <div class="cat-col">
-                <div class="cell">
-                    Owner:
-                </div>
-            </div>
-            <div class="cat-col">
-                <div class="cell">
-                    Request Date:
-                </div>
-            </div>
-            <div class="cat-col">
-                <div class="cell">
-
-                </div>
-            </div>
-            <div class="cat-col">
-                <div class="cell">
-
-                </div>
+        <div class="cat-col username">
+            <div class="cell">
+                username 1
             </div>
         </div>
-
-        <div class="cat-row">
-            <div class="cat-col username">
-                <div class="cell">
-                    username 1
-                </div>
+        <div class="cat-col dateCreated">
+            <div class="cell">
+                Date Created
             </div>
-            <div class="cat-col dateCreated">
-                <div class="cell">
-                    Date Created
-                </div>
+        </div>
+        <div class="cat-col btn">
+            <div class="cell">
+                <form action="" method="post">
+                    <button type="submit">Decline</button>
+                </form>
             </div>
-            <div class="cat-col btn">
-                <div class="cell">
-                    <form action="" method="post">
-                        <button type="submit">Decline</button>
-                    </form>
-                </div>
-            </div>
-            <div class="cat-col btn">
-                <div class="cell">
-                    <form action="" method="post">
-                        <button type="submit">Open Transaction</button>
-                    </form>
-                </div>
+        </div>
+        <div class="cat-col btn">
+            <div class="cell">
+                <form action="" method="post">
+                    <button type="submit">Open Transaction</button>
+                </form>
             </div>
         </div>
     </div>
 
 </main>
-<script src="../static/js/catalogue-funct.js"></script>
 </body>
 </html>

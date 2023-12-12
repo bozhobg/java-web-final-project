@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../static/css/reset-css.css"/>
     <link rel="stylesheet" type="text/css" href="../static/css/styles.css"/>
 </head>
+
 <body>
 <header th:replace="~{fragments/header-nav::header-nav}">
     <nav class='nav-bar'>
@@ -36,11 +37,30 @@
         </ul>
     </nav>
 </header>
+<main>
+    <div class='form-container register'>
+        <form action="/users/register" method="POST">
+            <label for="username">Username</label>
+            <input id="username" type="text">
 
-<main class="landing">
-    <div class='landing-container'>
-        <h1>Welcome to the open exchange library!</h1>
-        <img th:src="@{/images/landing-img.png}" alt="landing image">
+            <label for="email">Email</label>
+            <input id="email" type="email"/>
+
+            <label for="firstName">First name</label>
+            <input id="firstName" type="text">
+
+            <label for="lastName">Last name</label>
+            <input id="lastName" type="text">
+
+            <label for="password">Password</label>
+            <input id="password" type="password">
+
+            <label for="confirmPassword">Confirm password</label>
+            <input id="confirmPassword" type="password">
+
+            <button type="submit">Register</button>
+        </form>
+        <img th:src="@{/images/book-shelves-4.png}" alt="User form image">
     </div>
 </main>
 </body>

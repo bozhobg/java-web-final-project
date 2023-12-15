@@ -10,14 +10,14 @@ public class TransactionEntity extends BaseEntity{
 
     @OneToOne(optional = false)
     private RequestEntity request;
-    @OneToOne(mappedBy = "currentTransaction")
-    private CopyEntity copy;
+//    @OneToOne(mappedBy = "currentTransaction")
+//    private CopyEntity copy;
     @Column(name = "borrow_date", nullable = false)
     private LocalDate borrowDate;
     @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
-    @Column(name = "returnDate", nullable = false)
-    private Boolean returnDate;
+    @Column(name = "return_date")
+    private LocalDate returnDate;
 
     public TransactionEntity() {}
 
@@ -30,14 +30,14 @@ public class TransactionEntity extends BaseEntity{
         return this;
     }
 
-    public CopyEntity getCopy() {
-        return copy;
-    }
-
-    public TransactionEntity setCopy(CopyEntity copy) {
-        this.copy = copy;
-        return this;
-    }
+//    public CopyEntity getCopy() {
+//        return copy;
+//    }
+//
+//    public TransactionEntity setCopy(CopyEntity copy) {
+//        this.copy = copy;
+//        return this;
+//    }
 
     public LocalDate getBorrowDate() {
         return borrowDate;
@@ -57,11 +57,11 @@ public class TransactionEntity extends BaseEntity{
         return this;
     }
 
-    public Boolean getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public TransactionEntity setReturnDate(Boolean returnDate) {
+    public TransactionEntity setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
         return this;
     }

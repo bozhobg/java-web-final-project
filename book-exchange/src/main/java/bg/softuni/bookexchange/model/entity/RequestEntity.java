@@ -17,8 +17,8 @@ public class RequestEntity extends BaseEntity {
     @Column(name = "date_created", nullable = false)
     private LocalDate dateCreated;
 //    TODO: use scheduler to delete after 30 days stopping re-requests for that period
-    @Column(name = "date_declined")
-    private LocalDate dateDeclined;
+    @Column(name = "date_resolved")
+    private LocalDate dateResolved;
 //    used to lock creation of new transactions if borrowed
     @OneToOne
     @JoinColumn(name = "opened_tx_id")
@@ -54,12 +54,12 @@ public class RequestEntity extends BaseEntity {
         return this;
     }
 
-    public LocalDate getDateDeclined() {
-        return dateDeclined;
+    public LocalDate getDateResolved() {
+        return dateResolved;
     }
 
-    public RequestEntity setDateDeclined(LocalDate dateDeclined) {
-        this.dateDeclined = dateDeclined;
+    public RequestEntity setDateResolved(LocalDate dateDeclined) {
+        this.dateResolved = dateDeclined;
         return this;
     }
 
@@ -71,5 +71,7 @@ public class RequestEntity extends BaseEntity {
         this.openedTransaction = currentTransaction;
         return this;
     }
+
+
 
 }

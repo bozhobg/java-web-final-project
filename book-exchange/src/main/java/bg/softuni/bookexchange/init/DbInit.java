@@ -17,9 +17,11 @@ import java.util.*;
 @Component
 public class DbInit implements CommandLineRunner {
 
+    private final long REQUESTS_GENERATED_COUNT = 200;
     private final long AUTO_DECLINE_WEEKS_PERIOD = 3L;
-    private final long DEFAULT_BORROW_WEEKS_PERIDO = 3L;
+    private final long DEFAULT_BORROW_WEEKS_PERIOD = 3L;
     private final long GENERATION_WEEKS_PERIOD = -9L;
+
 
     private final GenreRepository genreRepository;
     private final BookRepository bookRepository;
@@ -27,6 +29,7 @@ public class DbInit implements CommandLineRunner {
     private final UserRepository userRepository;
     private final CopyRepository copyRepository;
     private final RequestRepository requestRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
     public DbInit(
@@ -35,7 +38,8 @@ public class DbInit implements CommandLineRunner {
             AuthorRepository authorRepository,
             UserRepository userRepository,
             CopyRepository copyRepository,
-            RequestRepository requestRepository
+            RequestRepository requestRepository,
+            TransactionRepository transactionRepository
     ) {
         this.genreRepository = genreRepository;
         this.bookRepository = bookRepository;
@@ -43,6 +47,7 @@ public class DbInit implements CommandLineRunner {
         this.userRepository = userRepository;
         this.copyRepository = copyRepository;
         this.requestRepository = requestRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     @Override
@@ -65,12 +70,13 @@ public class DbInit implements CommandLineRunner {
         long copiesCount = this.copyRepository.count();
         Random random = new Random();
 
-        for (int i = 0; i < 60; i++) {
+        for (int i = 0; i < REQUESTS_GENERATED_COUNT; i++) {
             CopyEntity copy = this.copyRepository.findById(random.nextLong(copiesCount) + 1)
                     .orElseThrow();
             UserEntity user = this.userRepository.findById(random.nextLong(usersCount) + 1)
                     .orElseThrow();
 
+//            no requests for copies with open transactions.
             RequestEntity newRequest = new RequestEntity()
                     .setCopy(copy)
                     .setBorrower(user)
@@ -78,8 +84,15 @@ public class DbInit implements CommandLineRunner {
                             this.getRandomDateWeeksAroundDate(LocalDate.now(), GENERATION_WEEKS_PERIOD)
                     );
 
-            newRequest = this.requestRepository.save(newRequest);
+            int existingTxForCreateDateCount = this.transactionRepository
+                    .findAllByCopyAndDateBetweenBorrowAndReturnDate(copy, newRequest.getDateCreated())
+                    .size();
 
+            if (existingTxForCreateDateCount > 0) {
+                continue;
+            }
+
+//            newRequest = this.requestRepository.save(newRequest);
 
 //            TODO:
 //            request older than certain period e.g. 3 weeks should be declined automatically
@@ -101,13 +114,15 @@ public class DbInit implements CommandLineRunner {
                     case 0 -> declineRequest(newRequest, LocalDate.now());
                     case 1 -> generateTx(newRequest);
 //                    case 3 -> leave open
+//                    case 4 -> if ex there is tx and is extended
                 }
 
             } else if (dateCreated.isBefore(currentAutoDeclineCreateDate)) {
-//                for requests that are overdue
+//                for requests that are before autodecline request creation
                 switch (randomStatus) {
-                    case 0 ->
-                            declineRequest(newRequest, newRequest.getDateCreated().plusWeeks(AUTO_DECLINE_WEEKS_PERIOD));
+                    case 0 -> declineRequest(
+                            newRequest, newRequest.getDateCreated().plusWeeks(AUTO_DECLINE_WEEKS_PERIOD)
+                    );
                     case 1 -> generateTx(newRequest);
                     case 2 -> autoDeclineRequest(newRequest);
                 }
@@ -122,44 +137,181 @@ public class DbInit implements CommandLineRunner {
     private void generateTx(RequestEntity newRequest) {
 //        generate in tx init?
 
+        CopyEntity forCopy = newRequest.getCopy();
+        TransactionEntity newTx = new TransactionEntity()
+                .setRequest(newRequest);
+//                .setCopy(forCopy); -> inserts into copies.tx_id
+
+//        get empty tx with dates data
+        setTxBorrowDateAndReturnDate(newTx, newRequest);
+
+//        if possible create tx if tx borrow and return are not in borrow period of another tx
+
+//        if transactions exist in the new period don't crate
+        int txAroundBorrowDateCount = this.transactionRepository
+                .findAllByCopyAndDateBetweenBorrowAndReturnDate(forCopy, newTx.getBorrowDate())
+                .size();
+
+        int txAroundReturnDateCount = this.transactionRepository
+                .findAllByCopyAndDateBetweenBorrowAndReturnDate(forCopy, newTx.getReturnDate())
+                .size();
+
+        int txOverlappingNewPeriodCount = this.transactionRepository
+                .findAllByCopyAndWhereDatesOverlap(
+                        forCopy,
+                        newTx.getBorrowDate(),
+                        newTx.getReturnDate() == null ? LocalDate.now() : newTx.getReturnDate())
+                .size();
+
+        if (txAroundBorrowDateCount > 0 || txAroundReturnDateCount > 0 || txOverlappingNewPeriodCount > 0) {
+            return;
+        }
+//        existing open requests, edit to resolved
+        List<RequestEntity> requestsCreatedInTxPeriod = this.requestRepository.findAllByCopyAndDateCreatedIsBetween(
+                forCopy,
+                newTx.getBorrowDate(),
+                newTx.getReturnDate() == null ? LocalDate.now() : newTx.getReturnDate()
+        );
+//        TODO: could not execute statement [Cannot delete or update a parent row: a foreign key constraint fails (`book_exchange`.`transactions`, CONSTRAINT `FKhuqxe4fc5whd4j7hxgymgorqe` FOREIGN KEY (`request_id`) REFERENCES `requests` (`id`))] [delete from requests where id=?]
+        this.requestRepository.deleteAll(requestsCreatedInTxPeriod);
+
+        List<RequestEntity> requestsResolveDateInTxPeriod =
+                this.requestRepository.findAllByCopyAndDateResolvedBetween(
+                        forCopy,
+                        newTx.getBorrowDate(),
+                        newTx.getReturnDate() == null ? LocalDate.now() : newTx.getReturnDate()
+                );
+        List<RequestEntity> requestsCreatedBeforeTxBorrowAndUnresolved =
+                this.requestRepository.findAllByCopyAndDateCreatedBeforeAndDateResolvedIsNull(
+                        forCopy,
+                        newTx.getBorrowDate()
+                );
+
+        ArrayList<RequestEntity> trimResolveDateRequests = new ArrayList<>();
+        trimResolveDateRequests.addAll(requestsResolveDateInTxPeriod);
+        trimResolveDateRequests.addAll(requestsCreatedBeforeTxBorrowAndUnresolved);
+
+        for (RequestEntity trimRequest : trimResolveDateRequests) {
+            trimRequest.setDateResolved(newTx.getBorrowDate());
+            this.requestRepository.save(trimRequest);
+        }
+
+
+//        place to updated request, transaction and copy if tx is ongoing
+        newRequest.setDateResolved(newTx.getBorrowDate());
+        newRequest = this.requestRepository.save(newRequest);
+        newTx = this.transactionRepository.save(newTx);
+        newRequest.setOpenedTransaction(newTx);
+
+        if (newTx.getReturnDate() == null) {
+            forCopy.setCurrentTransaction(newTx);
+            this.copyRepository.save(forCopy);
+        }
+    }
+
+    private void setTxBorrowDateAndReturnDate(TransactionEntity newTx, RequestEntity newRequest) {
+        LocalDate requestDateCreated = newRequest.getDateCreated();
+
+        LocalDate autoDeclineBoundDate = LocalDate.now().minusWeeks(AUTO_DECLINE_WEEKS_PERIOD);
         Random random = new Random();
 
-        LocalDate borrowDate = this.getRandomDateBetweenTwoDates(
-                newRequest.getDateCreated(),
-                newRequest.getDateCreated().plusWeeks(3));
+        if (requestDateCreated.isAfter(autoDeclineBoundDate)
+                || requestDateCreated.isEqual(autoDeclineBoundDate)) {
+            newTx.setBorrowDate(
+                    this.getRandomDateBetweenTwoDates(LocalDate.now(), requestDateCreated)
+            );
+            newTx.setDueDate(newTx.getBorrowDate().plusWeeks(DEFAULT_BORROW_WEEKS_PERIOD));
+            int chanceOfQuickReturn = random.nextInt(5);
 
-        TransactionEntity newTx = new TransactionEntity()
-                .setRequest(newRequest)
-                .setCopy(newRequest.getCopy())
-//                TODO: random borrowDate
-                .setBorrowDate()
-//                TODO: set due date, extension logic?
-                .setDueDate()
-//                TODO: random isOpen -> replace with return date?
-                .setOpen();
+            if (chanceOfQuickReturn == 0) {
+                newTx.setReturnDate(this.getRandomDateBetweenTwoDates(LocalDate.now(), newTx.getBorrowDate()));
+            }
+//            TODO: may do an extension although never to be overdue
+        } else {
+//            handling before current autodecline req create date
+            newTx.setBorrowDate(
+                    this.getRandomDateBetweenTwoDates(
+                            requestDateCreated,
+                            requestDateCreated.plusWeeks(DEFAULT_BORROW_WEEKS_PERIOD))
+            );
+//            max extension 3 weeks
+            int extension = random.nextInt(4);
+            newTx.setDueDate(
+                    newTx.getBorrowDate().plusWeeks(DEFAULT_BORROW_WEEKS_PERIOD + extension)
+            );
+//                is overdue, return in time, returned overdue
+            boolean isOverdue = random.nextBoolean();
+            boolean isReturned = random.nextBoolean();
+            LocalDate dueDate = newTx.getDueDate();
 
+            if (dueDate.isAfter(LocalDate.now())) {
+                int chanceOfQuickReturn = random.nextInt(3);
+                if (chanceOfQuickReturn == 0) {
+                    newTx.setReturnDate(this.getRandomDateBetweenTwoDates(LocalDate.now(), newTx.getBorrowDate()));
+                }
+            } else {
+                if (isReturned) {
+                    if (isOverdue) {
+                        newTx.setReturnDate(this.getRandomDateBetweenTwoDates(dueDate, LocalDate.now()));
+                    } else {
+                        newTx.setReturnDate(this.getRandomDateBetweenTwoDates(dueDate, newTx.getBorrowDate()));
+                    }
+                }
+            }
+        }
+    }
 
+    private void trimResolveDateIfInTxPeriod(RequestEntity newRequest) {
+
+        List<TransactionEntity> txBorrowDateInRequestPeriod =
+                this.transactionRepository.findByRequest_CopyAndBorrowDateBetween(
+                        newRequest.getCopy(),
+                        newRequest.getDateCreated(),
+                        newRequest.getDateResolved() == null
+                                ? LocalDate.now()
+                                : newRequest.getDateResolved()
+                );
+
+        if (txBorrowDateInRequestPeriod.isEmpty()) {
+            return;
+        }
+
+        LocalDate minTrimDate = LocalDate.now();
+
+        for (TransactionEntity tx : txBorrowDateInRequestPeriod) {
+            if (tx.getBorrowDate().isBefore(minTrimDate)) {
+                minTrimDate = tx.getBorrowDate();
+            }
+        }
+
+        newRequest.setDateResolved(minTrimDate);
     }
 
     private void autoDeclineRequest(RequestEntity newRequest) {
         LocalDate dateCreated = newRequest.getDateCreated();
 
-        this.requestRepository.save(
-                newRequest.setDateDeclined(
-                        this.getRandomDateWeeksAroundDate(dateCreated, AUTO_DECLINE_WEEKS_PERIOD)));
+        newRequest.setDateResolved(dateCreated.plusWeeks(AUTO_DECLINE_WEEKS_PERIOD));
+        trimResolveDateIfInTxPeriod(newRequest);
+
+        this.requestRepository.save(newRequest);
     }
 
-    private void declineRequest(RequestEntity requestEntity, LocalDate upperBoundDate) {
-        requestEntity.setDateDeclined(
-                getRandomDateBetweenTwoDates(requestEntity.getDateCreated(), upperBoundDate)
+    private void declineRequest(RequestEntity newRequest, LocalDate upperBoundDate) {
+        newRequest.setDateResolved(
+                getRandomDateBetweenTwoDates(newRequest.getDateCreated(), upperBoundDate)
         );
+
+        trimResolveDateIfInTxPeriod(newRequest);
+        this.requestRepository.save(newRequest);
     }
 
     private LocalDate getRandomDateBetweenTwoDates(LocalDate date1, LocalDate date2) {
         long min = 0;
         long max = 0;
-        LocalDate dateDeclined = LocalDate.now();
         Random random = new Random();
+
+        if (date1.isAfter(LocalDate.now())) date1 = LocalDate.now();
+        if (date2.isAfter(LocalDate.now())) date2 = LocalDate.now();
 
         if (date1.isBefore(date2)) {
             min = date1.toEpochDay();
@@ -168,7 +320,7 @@ public class DbInit implements CommandLineRunner {
             min = date2.toEpochDay();
             max = date1.toEpochDay();
         } else {
-            return LocalDate.now();
+            return date1;
         }
 
         return LocalDate.ofEpochDay(random.nextLong(max - min) + 1 + min);

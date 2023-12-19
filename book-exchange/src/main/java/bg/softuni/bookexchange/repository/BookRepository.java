@@ -5,15 +5,17 @@ import bg.softuni.bookexchange.model.entity.GenreEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Set;
 
 @Repository
 public interface BookRepository extends JpaRepository<BookEntity, Long> {
-    BookEntity findBookEntityByTitle(String title);
-    Set<BookEntity> findBookEntityByTitleContaining(String titleSearchString);
 
+//    Catalogue Search
+    Set<BookEntity> findBookEntityByTitleContainingIgnoreCase(String titleSearchString);
     Set<BookEntity> findAllByGenresIn(Set<GenreEntity> searchGenres);
 
 
+
+//    DB init
+    BookEntity findBookEntityByTitle(String title);
 }

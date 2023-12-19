@@ -17,6 +17,7 @@ import java.util.*;
 @Component
 public class DbInit implements CommandLineRunner {
 
+//    TODO: test w/ diff init params
     private final long REQUESTS_GENERATED_COUNT = 200;
     private final long AUTO_DECLINE_WEEKS_PERIOD = 3L;
     private final long DEFAULT_BORROW_WEEKS_PERIOD = 3L;
@@ -77,7 +78,7 @@ public class DbInit implements CommandLineRunner {
                     .orElseThrow();
 
 //            no requests for copies with open transactions.
-            RequestEntity newRequest = new RequestEntity()
+            CopyRequestEntity newRequest = new CopyRequestEntity()
                     .setCopy(copy)
                     .setBorrower(user)
                     .setDateCreated(
@@ -134,12 +135,12 @@ public class DbInit implements CommandLineRunner {
     }
 
 
-    private void generateTx(RequestEntity newRequest) {
+    private void generateTx(CopyRequestEntity newRequest) {
 //        generate in tx init?
 
         CopyEntity forCopy = newRequest.getCopy();
         TransactionEntity newTx = new TransactionEntity()
-                .setRequest(newRequest);
+                .setCopyRequest(newRequest);
 //                .setCopy(forCopy); -> inserts into copies.tx_id
 
 //        get empty tx with dates data
@@ -167,7 +168,7 @@ public class DbInit implements CommandLineRunner {
             return;
         }
 //        existing open requests, edit to resolved
-        List<RequestEntity> requestsCreatedInTxPeriod = this.requestRepository.findAllByCopyAndDateCreatedIsBetween(
+        List<CopyRequestEntity> requestsCreatedInTxPeriod = this.requestRepository.findAllByCopyAndDateCreatedIsBetween(
                 forCopy,
                 newTx.getBorrowDate(),
                 newTx.getReturnDate() == null ? LocalDate.now() : newTx.getReturnDate()
@@ -175,23 +176,23 @@ public class DbInit implements CommandLineRunner {
 //        TODO: could not execute statement [Cannot delete or update a parent row: a foreign key constraint fails (`book_exchange`.`transactions`, CONSTRAINT `FKhuqxe4fc5whd4j7hxgymgorqe` FOREIGN KEY (`request_id`) REFERENCES `requests` (`id`))] [delete from requests where id=?]
         this.requestRepository.deleteAll(requestsCreatedInTxPeriod);
 
-        List<RequestEntity> requestsResolveDateInTxPeriod =
+        List<CopyRequestEntity> requestsResolveDateInTxPeriod =
                 this.requestRepository.findAllByCopyAndDateResolvedBetween(
                         forCopy,
                         newTx.getBorrowDate(),
                         newTx.getReturnDate() == null ? LocalDate.now() : newTx.getReturnDate()
                 );
-        List<RequestEntity> requestsCreatedBeforeTxBorrowAndUnresolved =
+        List<CopyRequestEntity> requestsCreatedBeforeTxBorrowAndUnresolved =
                 this.requestRepository.findAllByCopyAndDateCreatedBeforeAndDateResolvedIsNull(
                         forCopy,
                         newTx.getBorrowDate()
                 );
 
-        ArrayList<RequestEntity> trimResolveDateRequests = new ArrayList<>();
+        ArrayList<CopyRequestEntity> trimResolveDateRequests = new ArrayList<>();
         trimResolveDateRequests.addAll(requestsResolveDateInTxPeriod);
         trimResolveDateRequests.addAll(requestsCreatedBeforeTxBorrowAndUnresolved);
 
-        for (RequestEntity trimRequest : trimResolveDateRequests) {
+        for (CopyRequestEntity trimRequest : trimResolveDateRequests) {
             trimRequest.setDateResolved(newTx.getBorrowDate());
             this.requestRepository.save(trimRequest);
         }
@@ -209,7 +210,7 @@ public class DbInit implements CommandLineRunner {
         }
     }
 
-    private void setTxBorrowDateAndReturnDate(TransactionEntity newTx, RequestEntity newRequest) {
+    private void setTxBorrowDateAndReturnDate(TransactionEntity newTx, CopyRequestEntity newRequest) {
         LocalDate requestDateCreated = newRequest.getDateCreated();
 
         LocalDate autoDeclineBoundDate = LocalDate.now().minusWeeks(AUTO_DECLINE_WEEKS_PERIOD);
@@ -261,7 +262,7 @@ public class DbInit implements CommandLineRunner {
         }
     }
 
-    private void trimResolveDateIfInTxPeriod(RequestEntity newRequest) {
+    private void trimResolveDateIfInTxPeriod(CopyRequestEntity newRequest) {
 
         List<TransactionEntity> txBorrowDateInRequestPeriod =
                 this.transactionRepository.findByRequest_CopyAndBorrowDateBetween(
@@ -287,7 +288,7 @@ public class DbInit implements CommandLineRunner {
         newRequest.setDateResolved(minTrimDate);
     }
 
-    private void autoDeclineRequest(RequestEntity newRequest) {
+    private void autoDeclineRequest(CopyRequestEntity newRequest) {
         LocalDate dateCreated = newRequest.getDateCreated();
 
         newRequest.setDateResolved(dateCreated.plusWeeks(AUTO_DECLINE_WEEKS_PERIOD));
@@ -296,7 +297,7 @@ public class DbInit implements CommandLineRunner {
         this.requestRepository.save(newRequest);
     }
 
-    private void declineRequest(RequestEntity newRequest, LocalDate upperBoundDate) {
+    private void declineRequest(CopyRequestEntity newRequest, LocalDate upperBoundDate) {
         newRequest.setDateResolved(
                 getRandomDateBetweenTwoDates(newRequest.getDateCreated(), upperBoundDate)
         );

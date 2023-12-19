@@ -6,26 +6,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
-public class CatalogueRestController {
+public class CatalogueSearchRestController {
 
     private final SearchService searchService;
 
     @Autowired
-    public CatalogueRestController(SearchService searchService) {
+    public CatalogueSearchRestController(SearchService searchService) {
         this.searchService = searchService;
     }
 
-    @GetMapping("/catalogue/search")
+//    changed from get to post, get request should not have a body due interoperation ability between systems (older)
+//    possible - done with insomnia get requests
+//    standard semantics
+//    fetch API and Spring (HttpMessageNotReadableException) should throw errors when body is passed
+//    http query method ?
+    @PostMapping("/catalogue/search")
     @ResponseBody
-    public List<BookSearchResultDTO> getBooksSearchResults(
+    public Set<BookSearchResultDTO> getBooksSearchResults(
             @RequestBody CatalogueSearchRequestDTO searchRequest
     ) {
 //        TODO:
-        List<BookSearchResultDTO> searchResult = this.searchService.getSearchResult(searchRequest);
+        Set<BookSearchResultDTO> searchResult = this.searchService.getSearchResult(searchRequest);
 
         return searchResult;
     }
@@ -35,6 +41,8 @@ public class CatalogueRestController {
             AuthorSearchRequestDTO searchRequest
     ) {
 //    TODO:
+
+
         return List.of(new AuthorBasicDTO());
     }
 

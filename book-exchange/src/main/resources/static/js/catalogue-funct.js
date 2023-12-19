@@ -1,25 +1,38 @@
 catalogueSearch();
+
 function catalogueSearch() {
     let BASE_URL = "http://localhost:8080/api/catalogue/";
 
+    let prevSearchResults =
+        () => document.querySelectorAll('main.cat > div.cat-row.search-result');
+    let catTable = document.querySelector('main.cat');
+
     const formInputValues = {
-        title: document.getElementById('title').value,
-        author:document.getElementById('author').value,
-        genre: document.getElementById('genre').value,
-        isCopyAvailable: document.getElementById('isAvailable').checked
+        title: () => document.getElementById('title').value,
+        author: () => document.getElementById('author').value,
+        genre: () => document.getElementById('genre').value,
+        isCopyAvailable: () => document.getElementById('isAvailable').checked
     }
 
     const searchBtn = document.querySelector('.cat-row.search-form .cat-col.btn .cell.cell-btn button');
     searchBtn.addEventListener('click', searchClickHandler);
 
-    function searchClickHandler(event) {
+    async function searchClickHandler(event) {
         event.preventDefault();
         // TODO: delete demo rows
         const searchCriteria = getInputsData();
+        prevSearchResults().forEach(row => catTable.removeChild(row));
 
-        const searchResults = searchRequest(searchCriteria);
+        const http = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body:JSON.stringify(searchCriteria)
+        }
 
-        Object.values(searchResults).forEach(r => generateResultRow(r))
+        const res = await fetch(BASE_URL + 'search', http);
+        const result = await res.json();
+
+        Object.values(result).forEach(r => generateResultRow(r))
     }
 
     function generateResultRow(result) {
@@ -39,7 +52,7 @@ function catalogueSearch() {
         row.append(authorsCol);
         let authorCell = document.createElement('div');
         authorCell.classList.add('cell');
-        authorCell.textContent = result.authorsFullNames.join(',14 ');
+        authorCell.textContent = result.authorsFullNames.join(', ');
         authorsCol.append(authorCell);
 
         let genresCol = document.createElement('div');
@@ -47,7 +60,7 @@ function catalogueSearch() {
         row.append(genresCol);
         let genresCell = document.createElement('div');
         genresCell.classList.add('cell');
-        genresCell.textContent = result.genres.join();
+        genresCell.textContent = result.genres.join(', ');
         genresCol.append(genresCell);
 
         let avCol = document.createElement('div');
@@ -59,7 +72,7 @@ function catalogueSearch() {
         avCol.append(avCell);
 
         let btnCol = document.createElement('div');
-        btnCol.classList.add('cat-col btn');
+        btnCol.classList.add('cat-col', 'btn');
         row.append(btnCol);
         let btnCell = document.createElement('div');
         btnCell.classList.add('cell');
@@ -67,29 +80,17 @@ function catalogueSearch() {
         let aLink = document.createElement('a');
         let textNodeLink = document.createTextNode('Book Details');
         aLink.append(textNodeLink);
-        aLink.href = BASE_URL + "books/" + result.id;
+        aLink.href = BASE_URL + "books/" + result.bookId;
         btnCell.append(aLink);
 
-        let catTable = document.querySelector('main.cat');
         catTable.appendChild(row);
-    }
-
-    async function searchRequest(searchCriteria) {
-        const http = {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body:JSON.stringify(searchCriteria)
-        }
-
-        const res = await fetch(BASE_URL + 'search', http);
-        return await res.json();
     }
 
     function getInputsData() {
         let searchCriteria = {};
 
         for (const input in formInputValues) {
-            const value = formInputValues[input];
+            const value = formInputValues[input]();
 
             if (!value) {
                 searchCriteria[input] = "";

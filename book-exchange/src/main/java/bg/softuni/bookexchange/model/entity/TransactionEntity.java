@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class TransactionEntity extends BaseEntity{
 
     @OneToOne(optional = false)
-    private RequestEntity request;
+    private CopyRequestEntity request;
 //    @OneToOne(mappedBy = "currentTransaction")
 //    private CopyEntity copy;
     @Column(name = "borrow_date", nullable = false)
@@ -21,11 +21,11 @@ public class TransactionEntity extends BaseEntity{
 
     public TransactionEntity() {}
 
-    public RequestEntity getRequest() {
+    public CopyRequestEntity getCopyRequest() {
         return request;
     }
 
-    public TransactionEntity setRequest(RequestEntity request) {
+    public TransactionEntity setCopyRequest(CopyRequestEntity request) {
         this.request = request;
         return this;
     }

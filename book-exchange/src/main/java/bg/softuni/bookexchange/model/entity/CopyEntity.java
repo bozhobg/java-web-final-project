@@ -17,7 +17,6 @@ public class CopyEntity extends BaseEntity {
     @Column(name = "book_condition")
     @Enumerated(EnumType.STRING)
     private BookConditionEnum bookCondition;
-
     @OneToOne
     @JoinColumn(name = "current_tx_id")
     private TransactionEntity currentTransaction;

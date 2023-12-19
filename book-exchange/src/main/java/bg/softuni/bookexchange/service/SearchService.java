@@ -3,11 +3,11 @@ package bg.softuni.bookexchange.service;
 import bg.softuni.bookexchange.model.dto.BookSearchResultDTO;
 import bg.softuni.bookexchange.model.dto.CatalogueSearchRequestDTO;
 
-import java.util.List;
+import java.util.Set;
 
 public interface SearchService {
 
-    List<BookSearchResultDTO> getSearchResult(
+    Set<BookSearchResultDTO> getSearchResult(
             CatalogueSearchRequestDTO searchRequestDTO
     );
 }

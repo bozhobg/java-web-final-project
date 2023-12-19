@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookSearchResultDTO {
-    private Long id;
+    private Long bookId;
     private String title;
     private List<String> authorsFullNames;
     private List<String> genres;
     private Integer totalCopiesCount;
-    private Integer availableCopies;
+    private Integer availableCopiesCount;
 
     public BookSearchResultDTO(){
         this.authorsFullNames = new ArrayList<>();
         this.genres = new ArrayList<>();
     }
 
-    public Long getId() {
-        return id;
+    public Long getBookId() {
+        return bookId;
     }
 
-    public BookSearchResultDTO setId(Long id) {
-        this.id = id;
+    public BookSearchResultDTO setBookId(Long bookId) {
+        this.bookId = bookId;
         return this;
     }
 
@@ -61,12 +61,12 @@ public class BookSearchResultDTO {
         return this;
     }
 
-    public Integer getAvailableCopies() {
-        return availableCopies;
+    public Integer getAvailableCopiesCount() {
+        return availableCopiesCount;
     }
 
-    public BookSearchResultDTO setAvailableCopies(Integer availableCopies) {
-        this.availableCopies = availableCopies;
+    public BookSearchResultDTO setAvailableCopiesCount(Integer availableCopiesCount) {
+        this.availableCopiesCount = availableCopiesCount;
         return this;
     }
 }

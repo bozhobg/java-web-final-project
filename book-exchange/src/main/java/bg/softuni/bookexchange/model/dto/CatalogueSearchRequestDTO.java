@@ -4,7 +4,7 @@ public class CatalogueSearchRequestDTO {
     private String title;
     private String author;
     private String genre;
-    private boolean isCopyAvailable;
+    private Boolean isCopyAvailable;
 
     public CatalogueSearchRequestDTO() {
     }
@@ -36,11 +36,11 @@ public class CatalogueSearchRequestDTO {
         return this;
     }
 
-    public boolean isCopyAvailable() {
+    public boolean getIsCopyAvailable() {
         return isCopyAvailable;
     }
 
-    public CatalogueSearchRequestDTO setCopyAvailable(boolean copyAvailable) {
+    public CatalogueSearchRequestDTO setIsCopyAvailable(boolean copyAvailable) {
         isCopyAvailable = copyAvailable;
         return this;
     }

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "requests")
-public class RequestEntity extends BaseEntity {
+public class CopyRequestEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "borrower_id", nullable = false)
@@ -25,13 +25,13 @@ public class RequestEntity extends BaseEntity {
     private TransactionEntity openedTransaction;
 
 
-    public RequestEntity() {}
+    public CopyRequestEntity() {}
 
     public UserEntity getBorrower() {
         return borrower;
     }
 
-    public RequestEntity setBorrower(UserEntity borrower) {
+    public CopyRequestEntity setBorrower(UserEntity borrower) {
         this.borrower = borrower;
         return this;
     }
@@ -40,7 +40,7 @@ public class RequestEntity extends BaseEntity {
         return copy;
     }
 
-    public RequestEntity setCopy(CopyEntity copy) {
+    public CopyRequestEntity setCopy(CopyEntity copy) {
         this.copy = copy;
         return this;
     }
@@ -49,7 +49,7 @@ public class RequestEntity extends BaseEntity {
         return dateCreated;
     }
 
-    public RequestEntity setDateCreated(LocalDate dateCreated) {
+    public CopyRequestEntity setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
         return this;
     }
@@ -58,7 +58,7 @@ public class RequestEntity extends BaseEntity {
         return dateResolved;
     }
 
-    public RequestEntity setDateResolved(LocalDate dateDeclined) {
+    public CopyRequestEntity setDateResolved(LocalDate dateDeclined) {
         this.dateResolved = dateDeclined;
         return this;
     }
@@ -67,7 +67,7 @@ public class RequestEntity extends BaseEntity {
         return openedTransaction;
     }
 
-    public RequestEntity setOpenedTransaction(TransactionEntity currentTransaction) {
+    public CopyRequestEntity setOpenedTransaction(TransactionEntity currentTransaction) {
         this.openedTransaction = currentTransaction;
         return this;
     }

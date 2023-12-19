@@ -25,8 +25,8 @@ public interface AuthorRepository extends JpaRepository<AuthorEntity, Long> {
 
     @Query(
             "SELECT a FROM AuthorEntity AS a " +
-                    "WHERE a.firstName LIKE %:nameSearch% " +
-                    "OR a.lastName LIKE %:nameSearch%"
+                    "WHERE LOWER(a.firstName) LIKE %:nameSearch% " +
+                    "OR LOWER(a.lastName) LIKE %:nameSearch%"
     )
     Set<AuthorEntity> findAllByFirstNameOrLastName(@Param("nameSearch") String nameSearch);
 

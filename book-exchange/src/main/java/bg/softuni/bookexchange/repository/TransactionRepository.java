@@ -14,7 +14,7 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
 
     @Query(
             "SELECT tx FROM TransactionEntity tx " +
-                    "JOIN RequestEntity r ON r.id = tx.request.id " +
+                    "JOIN CopyRequestEntity r ON r.id = tx.request.id " +
                     "JOIN CopyEntity c ON c.id = r.copy.id " +
                     "WHERE c = :copy " +
                     "AND (:date >= tx.borrowDate " +
@@ -24,7 +24,7 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
 
     @Query(
             "SELECT tx FROM TransactionEntity tx " +
-                    "JOIN RequestEntity r ON r.id = tx.request.id " +
+                    "JOIN CopyRequestEntity r ON r.id = tx.request.id " +
                     "JOIN CopyEntity c ON c.id = r.copy.id " +
                     "WHERE c = :copy " +
                     "AND (:borrowDate <= tx.borrowDate " +
